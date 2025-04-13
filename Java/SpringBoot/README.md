@@ -1,6 +1,3 @@
-Claro! Aqui está o modelo do README em formato Markdown:
-
-```markdown
 # Spring Boot Project
 
 Este é um projeto inicial configurado com **Spring Boot**, visando fornecer uma estrutura básica para o desenvolvimento de aplicações Java.
@@ -50,6 +47,3 @@ Este é um projeto inicial configurado com **Spring Boot**, visando fornecer uma
 ## 📜 Licença
 
 Este projeto está licenciado sob a [MIT License](LICENSE).
-```
-
-Agora você tem um README inicial em Markdown! Pode continuar a atualizar conforme o projeto evolui. Se precisar adicionar mais alguma coisa, estou à disposição.
