@@ -19,6 +19,7 @@ public class StructureMappingTable {
         "id", "SERIAL PRIMARY KEY",
         "role_name", "VARCHAR(255)",
         "description", "TEXT",
+        "budget_role", "DECIMAL(10,2)",
         "created_at", "TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
     );
 

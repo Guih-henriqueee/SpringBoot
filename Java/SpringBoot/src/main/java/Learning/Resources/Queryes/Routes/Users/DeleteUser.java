@@ -1,4 +1,4 @@
-package Learning.Resources.Queryes.Users;
+package Learning.Resources.Queryes.Routes.Users;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -11,7 +11,7 @@ public class DeleteUser {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private final String tableName = "Users";
+    private final String tableName = "users";
 
     public boolean deleteUser(int id) {
         String sql = "DELETE FROM " + tableName + " WHERE id = ?";

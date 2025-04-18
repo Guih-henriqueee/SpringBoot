@@ -1,4 +1,4 @@
-package Learning.Resources.Queryes.Users;
+package Learning.Resources.Queryes.Routes.Users;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;

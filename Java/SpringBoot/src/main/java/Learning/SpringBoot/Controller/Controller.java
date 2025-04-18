@@ -1,10 +1,10 @@
 package Learning.SpringBoot.Controller;
 
 import Learning.Model.User;
-import Learning.Resources.Queryes.GetUser;
-import Learning.Resources.Queryes.InsertUser;
-import Learning.Resources.Queryes.DeleteUser;
-import Learning.Resources.Queryes.UpdateUser;
+import Learning.Resources.Queryes.Routes.Users.*;
+
+import Learning.Model.Role;
+import Learning.Resources.Queryes.Routes.Roles.*;
 
 import java.util.List;
 import java.util.Map;
@@ -24,6 +24,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/SpringApi")
 public class Controller {
+
+
+    // ::::::::::: ----- Users Interactions ----- :::::::::::
 
     @Autowired
     @Qualifier("specificGetUser")
@@ -127,6 +130,116 @@ public class Controller {
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(500).body("❌ Error deleting user: " + e.getMessage());
+        }
+    }
+
+
+
+    // ::::::::::: ----- Roles Interactions ----- :::::::::::
+
+
+    @Autowired
+    @Qualifier("specificGetRole")
+    private GetRole getRole;        
+
+
+    @GetMapping("/Roles")
+    public ResponseEntity<?> recoverRole(@RequestParam("RoleId") int roleId) {
+        Map<String, Object> roleData = getRole.getRoleById(roleId);
+        if (roleData != null) {
+            return ResponseEntity.ok(roleData);
+        } 
+         else {
+            return ResponseEntity.status(404).body(Map.of("error", "Usuário não encontrado"));
+        }
+    }
+
+    @GetMapping("/Roles/All")
+    public ResponseEntity<?> recoverRoles() {
+        try {
+            List<Map<String, Object>> roleList = getRole.getRoles();
+            
+            if (roleList != null && !roleList.isEmpty()) {
+                return ResponseEntity.ok(roleList);
+            } else {
+                return ResponseEntity.ok(List.of());  
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(Map.of("error", "Contate o administrador"));
+        }
+    }
+
+
+    @Autowired
+    @Qualifier("specificInsertRole")
+    private InsertRole insertRole;
+
+    @PostMapping("/Roles")
+    public ResponseEntity<String> SetRole(@RequestBody Role role) {
+        try {
+            System.out.println("Role Name: " + role.getRoleName());
+            System.out.println("Role Description: " + role.getDescription());
+            System.out.println("Role Age: " + role.getRoleBudget());
+           
+
+            Long roleId = insertRole.insertRole(
+                    role.getRoleName(),
+                    role.getDescription(),
+                    role.getRoleBudget()
+            );
+
+            return ResponseEntity.status(201).body("✅ User Created with ID: " + roleId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("❌ Error creating user: " + e.getMessage());
+        }
+    }
+
+    @Autowired
+    @Qualifier("specificUpdateRole")
+    private UpdateRole UpdateRole;    
+
+    @PutMapping("/Roles")
+    public ResponseEntity<String> UpdateRole(@RequestParam("RoleId")  int roleId, @RequestBody Role role ) {
+        try {
+            boolean success = UpdateRole.updateRole( 
+                    roleId,
+                    role.getRoleName(),
+                    role.getDescription(),
+                    role.getRoleBudget());
+
+            if (success) {
+                return ResponseEntity.ok("✅ Role updated successfully");
+            } else {
+                return ResponseEntity.status(404).body("❌ Role not found or not updated");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("❌ Error updating role: " + e.getMessage());
+        }
+    }
+
+    
+    @Autowired
+    @Qualifier("specificDeleteRole")
+    private DeleteRole deleteRole;
+    
+    @DeleteMapping("/Roles")
+    public ResponseEntity<String> deleteRole(@RequestParam("RoleId") int roleId) {
+        try {
+            boolean success = deleteRole.deleteRole(roleId);
+    
+            if (success) {
+                return ResponseEntity.ok("✅ Role deleted successfully");
+            } else {
+                return ResponseEntity.status(404).body("❌ Role not found or could not be deleted");
+            }
+    
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("❌ Error deleting role: " + e.getMessage());
         }
     }
     

@@ -1,23 +1,23 @@
-package Learning.Resources.Queryes.Users;
+package Learning.Resources.Queryes.Routes.Roles;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.dao.DataAccessException;
 
-@Component("specificUpdateUser")
-public class UpdateUser {
+@Component("specificDeleteRole")
+public class DeleteRole {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private final String tableName = "Users";
+    private final String tableName = "roles";
 
-    public boolean updateUser(int id, String name, String function, int age) {
-        String sql = "UPDATE " + tableName + " SET U_Name = ?, U_Function = ?, U_Age = ? WHERE id = ?";
+    public boolean deleteRole(int id) {
+        String sql = "DELETE FROM " + tableName + " WHERE id = ?";
 
         try {
-            int rowsAffected = jdbcTemplate.update(sql, name, function, age, id);
+            int rowsAffected = jdbcTemplate.update(sql, id);
             return rowsAffected > 0; 
         } catch (DataAccessException e) {
             e.printStackTrace();
