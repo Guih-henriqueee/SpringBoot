@@ -1,4 +1,4 @@
-package Learning.Resources.Queryes;
+package Learning.Resources.Queryes.Users;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;

@@ -1,23 +1,23 @@
-package Learning.Resources.Queryes;
+package Learning.Resources.Queryes.Users;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.dao.DataAccessException;
 
-@Component("specificDeleteUser")
-public class DeleteUser {
+@Component("specificUpdateUser")
+public class UpdateUser {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     private final String tableName = "Users";
 
-    public boolean deleteUser(int id) {
-        String sql = "DELETE FROM " + tableName + " WHERE id = ?";
+    public boolean updateUser(int id, String name, String function, int age) {
+        String sql = "UPDATE " + tableName + " SET U_Name = ?, U_Function = ?, U_Age = ? WHERE id = ?";
 
         try {
-            int rowsAffected = jdbcTemplate.update(sql, id);
+            int rowsAffected = jdbcTemplate.update(sql, name, function, age, id);
             return rowsAffected > 0; 
         } catch (DataAccessException e) {
             e.printStackTrace();
