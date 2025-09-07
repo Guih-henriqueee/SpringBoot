@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.dao.DataAccessException;
+
 import java.sql.PreparedStatement;
 
 @Component("specificInsertRole")
@@ -16,27 +17,25 @@ public class InsertRole {
 
     private final String tableName = "roles";
 
-    public long insertRole(String roleName, String roleDescription, int roleBuget) {
-        String sql = "INSERT INTO " + tableName + " (U_Name, U_Function, U_Age, U_Cpf) VALUES (?, ?, ?)";
-        
-    
+    public Long insertRole(String roleName, String description, Double roleBudget) {
+        String sql = "INSERT INTO " + tableName + " (role_name, description, role_budget) VALUES (?, ?, ?)";
+
         KeyHolder keyHolder = new GeneratedKeyHolder();
-    
+
         try {
             jdbcTemplate.update(connection -> {
-                PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"}); 
+                PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
                 ps.setString(1, roleName);
-                ps.setString(2, roleDescription);
-                ps.setInt(3, roleBuget);
+                ps.setString(2, description);
+                ps.setDouble(3, roleBudget);
                 return ps;
             }, keyHolder);
-    
+
             return keyHolder.getKey() != null ? keyHolder.getKey().longValue() : null;
-    
+
         } catch (DataAccessException e) {
             e.printStackTrace();
-            return 0;  
+            return 0L;
         }
     }
-    
 }
