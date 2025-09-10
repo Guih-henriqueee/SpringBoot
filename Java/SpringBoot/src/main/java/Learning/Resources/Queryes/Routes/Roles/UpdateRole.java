@@ -14,7 +14,7 @@ public class UpdateRole {
     private final String tableName = "roles";
 
     public boolean updateRole(int id, String roleName, String roleDescription, Double roleBudget) {
-        String sql = "UPDATE " + tableName + " SET role_name = ?, description = ?, role_budget = ? WHERE id = ?";
+        String sql = "UPDATE " + tableName + " SET role_name = ?, description = ?, budget_role = ? WHERE id = ?";
 
         try {
             int rowsAffected = jdbcTemplate.update(sql, roleName, roleDescription, roleBudget, id);

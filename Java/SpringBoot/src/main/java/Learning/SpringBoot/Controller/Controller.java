@@ -150,6 +150,13 @@ public class Controller {
                     role.getRoleBudget()
             );
 
+            if (roleId == 0L) {
+                return ResponseEntity.status(500).body("❌ Error creating role: Possible duplicate or invalid data");
+            }
+            else if (roleId == 1L) {
+                return ResponseEntity.stat().body("❌ Error creating role: Duplicate role detected");
+            }
+
             return ResponseEntity.status(201).body("✅ Role Created with ID: " + roleId);
         } catch (Exception e) {
             e.printStackTrace();

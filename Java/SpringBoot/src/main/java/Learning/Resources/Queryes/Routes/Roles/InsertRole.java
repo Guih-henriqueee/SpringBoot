@@ -1,5 +1,8 @@
 package Learning.Resources.Queryes.Routes.Roles;
 
+import Learning.Resources.Queryes.Routes.Roles.CheckinData.CheckingRole;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -15,12 +18,19 @@ public class InsertRole {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private CheckingRole checkingRole;
+
     private final String tableName = "roles";
 
     public Long insertRole(String roleName, String description, Double roleBudget) {
-        String sql = "INSERT INTO " + tableName + " (role_name, description, role_budget) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO " + tableName + " (role_name, description, budget_role) VALUES (?, ?, ?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        if (checkingRole.checkingRole(roleName, description) > 0) {
+            return 1L; 
+        }
 
         try {
             jdbcTemplate.update(connection -> {
