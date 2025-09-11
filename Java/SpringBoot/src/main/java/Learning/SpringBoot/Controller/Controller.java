@@ -4,6 +4,7 @@ import Learning.Model.User;
 import Learning.Model.Role;
 import Learning.Resources.Queryes.Routes.Users.*;
 import Learning.Resources.Queryes.Routes.Roles.*;
+import Learning.Resources.Queryes.Routes.DeleteRoute;
 
 import java.util.List;
 import java.util.Map;
@@ -91,22 +92,13 @@ public class Controller {
     }
 
     @Autowired
-    @Qualifier("specificDeleteUser")
-    private DeleteUser deleteUser;
+    @Qualifier("specificDeleteRoute")
+    private DeleteRoute DeleteRoute;
 
     @DeleteMapping("/Users")
-    public ResponseEntity<String> deleteUser(@RequestParam("UserId") int userId) {
-        try {
-            boolean success = deleteUser.deleteUser(userId);
-
-            if (success) {
-                return ResponseEntity.ok("✅ User deleted successfully");
-            }
-            return ResponseEntity.status(404).body("❌ User not found or could not be deleted");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(500).body("❌ Error deleting user: " + e.getMessage());
-        }
+    public ResponseEntity<String> DeleteRoute(@RequestParam("UserId") int userId) {
+        int statusCode = DeleteRoute.deleteRoute(userId);
+        return ResponseEntity.status(statusCode).body("User deletion status: " + statusCode);
     }
 
     // ::::::::::: ----- Roles Interactions ----- :::::::::::
@@ -154,7 +146,7 @@ public class Controller {
                 return ResponseEntity.status(500).body("❌ Error creating role: Possible duplicate or invalid data");
             }
             else if (roleId == 1L) {
-                return ResponseEntity.stat().body("❌ Error creating role: Duplicate role detected");
+                return ResponseEntity.badRequest().body("❌ Error creating role: Duplicate role detected");
             }
 
             return ResponseEntity.status(201).body("✅ Role Created with ID: " + roleId);
